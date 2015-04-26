@@ -19,10 +19,9 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
     require 'sentimentalizer'
 
     # Monkey patch the weird defaults for positive/negative string values
-    class Sentiment
-        POSITIVE = 'positive'
-        NEGATIVE = 'negative'
-        NEUTRAL  = 'neutral'
+    ['POSITIVE', 'NEGATIVE', 'NEUTRAL'].each do |s|
+      Sentiment.send(:remove_const, s)
+      Sentiment.const_set(s, s.downcase)
     end
 
     Sentimentalizer.setup
@@ -35,7 +34,6 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
     source = event[@source]
 
     if !source.nil?
-
       begin
         sentiment = Sentimentalizer.analyze(source)
       rescue NoMethodError => e
@@ -44,11 +42,10 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
 
       if !sentiment.nil?
         event[@target] = {
-          :probability => sentiment.overall_probability,
-          :polarity    => sentiment.sentiment,
+          'probability' => sentiment.overall_probability,
+          'polarity'    => sentiment.sentiment,
         }
       end
-
     end
 
     # filter_matched should go in the last line of our successful code
