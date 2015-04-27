@@ -1,0 +1,6 @@
+language: ruby
+
+rvm:
+    - jruby
+
+script: 'bundle exec rspec'
