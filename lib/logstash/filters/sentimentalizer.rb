@@ -14,6 +14,9 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
   # What key to place sentiment values under
   config :target, :validate => :string, :default => 'sentiment'
 
+  # Should we scrub hashtags to better extract their sentiment?
+  config :scrub, :validate => :boolean, :default => true
+
   public
   def register
     require 'sentimentalizer'
@@ -32,6 +35,7 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
     return unless filter?(event)
 
     source = event[@source]
+    source.gsub!(/\B#(\S+)\b/, '\1') if @scrub
 
     if !source.nil?
       begin
