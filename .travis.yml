@@ -1,6 +1,13 @@
+---
+sudo: false
 language: ruby
-
-rvm:
-    - jruby
-
+cache: bundler
+matrix:
+  include:
+  - rvm: jruby-9.1.13.0
+  - rvm: jruby-9.1.13.0
+  - rvm: jruby-9.1.13.0
+  - rvm: jruby-1.7.27
+  fast_finish: true
+jdk: oraclejdk8
 script: 'bundle exec rspec'
