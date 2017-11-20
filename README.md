@@ -1,6 +1,25 @@
-# Logstash Plugin
+# logstash-filter-sentimentalizer
 
-This is a plugin for [Logstash](https://github.com/elasticsearch/logstash). [![Build Status](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer.svg?branch=master)](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer)
+This is a plugin for [Logstash](https://github.com/elasticsearch/logstash).
+[![Build Status](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer.svg?branch=master)](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer)
+This plugin enables you to perform effective sentiment analysis on arbitrary event fields with pretty simple configuration.
+Consider the following:
+
+```
+filter {
+  sentimentalizer {
+    source => "message"
+  }
+}
+```
+
+Is enough to perform sentiment analysis on the `message` field.
+
+Results are stored in the `sentiment.probability` (a float between 0 and 1, 0 being wholly negative and 1 being maximum positive) and `sentiment.polarity` (an enum with the members "positive", "negative", and "neutral") fields of the processed event (these names come from the underlying sentiment analysis library).
+
+Here's a short demo of it in action.
+
+![logstash demo gif](./demo.gif)
 
 It is fully free and fully open source. The license is Apache 2.0, meaning you are pretty much free to use it however you want in whatever way.
 
