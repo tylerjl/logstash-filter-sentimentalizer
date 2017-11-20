@@ -34,12 +34,13 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
   def filter(event)
     return unless filter?(event)
 
-    source = event.get(@source)
-    source.gsub!(/\B#(\S+)\b/, '\1') if @scrub
+    source = event.get(@source).dup
 
     unless source.nil?
       begin
-        sentiment = Sentimentalizer.analyze(source)
+        sentiment = Sentimentalizer.analyze(
+          @scrub ? source.gsub(/\B#(\S+)\b/, '\1') : source
+        )
       rescue NoMethodError => e
         @logger.error(
           'Error parsing sentiment for field',
