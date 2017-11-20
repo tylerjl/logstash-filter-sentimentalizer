@@ -1,11 +1,11 @@
 # encoding: utf-8
-require "logstash/filters/base"
-require "logstash/namespace"
+
+require 'logstash/filters/base'
+require 'logstash/namespace'
 
 # This plugin will analyze sentiment of a specified field and enrich the event
 # with sentiment probability values.
 class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
-
   config_name 'sentimentalizer'
 
   # Run sentiment analysis on this field
@@ -18,11 +18,12 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
   config :scrub, :validate => :boolean, :default => true
 
   public
+
   def register
     require 'sentimentalizer'
 
     # Monkey patch the weird defaults for positive/negative string values
-    ['POSITIVE', 'NEGATIVE', 'NEUTRAL'].each do |s|
+    %w[POSITIVE NEGATIVE NEUTRAL].each do |s|
       Sentiment.send(:remove_const, s)
       Sentiment.const_set(s, s.downcase)
     end
@@ -30,25 +31,29 @@ class LogStash::Filters::Sentimentalizer < LogStash::Filters::Base
     Sentimentalizer.setup
   end # def register
 
-  public
   def filter(event)
     return unless filter?(event)
 
-    source = event[@source]
+    source = event.get(@source)
     source.gsub!(/\B#(\S+)\b/, '\1') if @scrub
 
-    if !source.nil?
+    unless source.nil?
       begin
         sentiment = Sentimentalizer.analyze(source)
       rescue NoMethodError => e
-        @logger.error('Error parsing sentiment for field', :exception => e, :field => source)
+        @logger.error(
+          'Error parsing sentiment for field',
+          :exception => e,
+          :field => source
+        )
       end
 
-      if !sentiment.nil?
-        event[@target] = {
+      unless sentiment.nil?
+        event.set(
+          @target,
           'probability' => sentiment.overall_probability,
-          'polarity'    => sentiment.sentiment,
-        }
+          'polarity'    => sentiment.sentiment
+        )
       end
     end
 

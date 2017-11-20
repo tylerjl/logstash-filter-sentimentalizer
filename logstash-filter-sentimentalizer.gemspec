@@ -1,24 +1,27 @@
 Gem::Specification.new do |s|
-  s.name = 'logstash-filter-sentimentalizer'
-  s.version         = '0.1.0'
-  s.licenses = ['Apache License (2.0)']
-  s.summary = "This plugin will analyze sentiment of a specified field."
-  s.description = "This gem is a logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/plugin install gemname. This gem is not a stand-alone program"
-  s.authors = ['Tyler Langlois']
-  s.email = 'tyler@elastic.co'
-  s.homepage = 'https://github.com/tylerjl/logstash-filter-sentimentalizer'
-  s.require_paths = ["lib"]
+  s.name          = 'logstash-filter-sentimentalizer'
+  s.version       = '0.2.0'
+  s.licenses      = ['Apache-2.0']
+  s.summary       = 'This plugin will analyze sentiment of a specified field.'
+  s.description   = 'A logstash plugin to derive sentiment from fields.'
+  s.authors       = ['Tyler Langlois']
+  s.email         = 'tyler@elastic.co'
+  s.homepage      = 'https://github.com/tylerjl/logstash-filter-sentimentalizer'
+  s.require_paths = ['lib']
 
   # Files
-  s.files = `git ls-files`.split($\)
-   # Tests
+  s.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
+
+  # Tests
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
 
   # Special flag to let us know this is actually a logstash plugin
-  s.metadata = { "logstash_plugin" => "true", "logstash_group" => "filter" }
+  s.metadata = { 'logstash_plugin' => 'true', 'logstash_group' => 'filter' }
 
   # Gem dependencies
-  s.add_runtime_dependency "logstash-core", '>= 1.4.0', '< 2.0.0'
-  s.add_runtime_dependency 'sentimentalizer'
-  s.add_development_dependency 'logstash-devutils'
+  s.add_runtime_dependency 'logstash-codec-plain', '~> 3.0'
+  s.add_runtime_dependency 'logstash-core-plugin-api', '~> 2.0'
+  s.add_runtime_dependency 'sentimentalizer', '~> 0.3.0'
+
+  s.add_development_dependency 'logstash-devutils', '~> 1.0'
 end
