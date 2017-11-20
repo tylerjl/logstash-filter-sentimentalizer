@@ -4,7 +4,7 @@ require 'logstash/filters/sentimentalizer'
 describe LogStash::Filters::Sentimentalizer do
   describe 'default sentiment configuration' do
     let(:config) do
-      <<~CONFIG
+      <<-CONFIG
         filter {
           sentimentalizer { }
         }
@@ -28,7 +28,7 @@ describe LogStash::Filters::Sentimentalizer do
 
   describe 'twitter hashtag scoring without scrubbing' do
     let(:config) do
-      <<~CONFIG
+      <<-CONFIG
         filter {
           sentimentalizer {
               scrub => false
@@ -52,7 +52,7 @@ describe LogStash::Filters::Sentimentalizer do
 
   describe 'twitter hashtag scoring with scrubbing' do
     let(:config) do
-      <<~CONFIG
+      <<-CONFIG
         filter {
           sentimentalizer {
               scrub => true

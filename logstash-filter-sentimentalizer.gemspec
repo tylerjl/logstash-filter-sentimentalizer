@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'sentimentalizer', '~> 0.3.0'
 
   s.add_development_dependency 'logstash-devutils', '~> 1.0'
+  s.add_development_dependency 'rspec', '~> 3.0'
 end

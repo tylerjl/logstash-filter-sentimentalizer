@@ -1,7 +1,7 @@
-# logstash-filter-sentimentalizer
+# logstash-filter-sentimentalizer [![Build Status](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer.svg?branch=master)](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer)
 
 This is a plugin for [Logstash](https://github.com/elasticsearch/logstash).
-[![Build Status](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer.svg?branch=master)](https://travis-ci.org/tylerjl/logstash-filter-sentimentalizer)
+
 This plugin enables you to perform effective sentiment analysis on arbitrary event fields with pretty simple configuration.
 Consider the following:
 
