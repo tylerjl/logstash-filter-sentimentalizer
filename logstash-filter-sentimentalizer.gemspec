@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'logstash-filter-sentimentalizer'
-  s.version       = '0.2.1'
+  s.version       = '0.2.2'
   s.licenses      = ['Apache-2.0']
   s.summary       = 'This plugin will analyze sentiment of a specified field.'
   s.description   = 'A logstash plugin to derive sentiment from fields.'
